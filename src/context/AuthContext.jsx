@@ -12,8 +12,13 @@ import { auth } from "../lib/firebase";
 
 const AuthContext = createContext(null);
 
-// the admin email comes from your .env file
-const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || "").trim().toLowerCase();
+// the admin emails come from your .env file.
+// One email, or several separated by commas:
+// VITE_ADMIN_EMAIL=owner@gmail.com,developer@gmail.com
+const ADMIN_EMAILS = (import.meta.env.VITE_ADMIN_EMAIL || "")
+  .split(",")
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -53,7 +58,7 @@ export function AuthProvider({ children }) {
 
   const isVerified = !!user?.emailVerified;
   const isAdminEmail =
-    !!user && !!ADMIN_EMAIL && user.email?.toLowerCase() === ADMIN_EMAIL;
+    !!user && !!user.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
   const isAdmin = isAdminEmail && isVerified;
 
   const value = {
@@ -62,7 +67,7 @@ export function AuthProvider({ children }) {
     isAdmin,
     isAdminEmail,
     isVerified,
-    adminEmailSet: !!ADMIN_EMAIL,
+    adminEmailSet: ADMIN_EMAILS.length > 0,
     login,
     logout,
     resetPassword,
