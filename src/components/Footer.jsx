@@ -328,7 +328,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className={`font-semibold transition-colors hover:underline hover:underline-offset-4 ${t.boxStrong}`}
           >
-            Dev-A Tech
+            Dev-A Technologies
           </a>
         </p>
       </div>
