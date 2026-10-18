@@ -123,7 +123,7 @@ export default function Snacks() {
     const words = FILTERS[filter].words;
     const term = q.trim().toLowerCase();
     return all.filter((p) => {
-      const text = `${p.name} ${p.description}`.toLowerCase();
+      const text = `${p.name} ${p.description || ""}`.toLowerCase();
       if (words.length && !words.some((w) => text.includes(w))) return false;
       return !term || text.includes(term);
     });
@@ -349,7 +349,7 @@ export default function Snacks() {
               ))}
             </div>
           ) : (
-            <p className="py-16 text-center text-[#7b3100]/70">No snacks found. Try another word 🍪</p>
+            <p className="py-16 text-center text-[#7b3100]/70">{all.length === 0 ? "New products are coming soon ✨" : "No products found. Try another word."}🍪</p>
           )}
         </div>
       </section>

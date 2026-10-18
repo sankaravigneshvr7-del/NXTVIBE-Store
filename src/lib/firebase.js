@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeFirestore, setLogLevel } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -13,17 +13,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// Force long-polling: helps when the network, antivirus or an extension
-// breaks Firebase's streaming connection.
+// Auto-detect: Firestore only switches to the slower, safer connection style
+// when a network or antivirus blocks the normal one.
 export const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
+  experimentalAutoDetectLongPolling: true,
 });
 
 export const auth = getAuth(app);
-
-// TEMPORARY DEBUG (development only): prints what Firestore is doing in the
-// browser Console. Delete these lines once saving works.
-if (import.meta.env.DEV) {
-  setLogLevel("debug");
-  console.log("Firebase project:", firebaseConfig.projectId, "| long-polling: forced");
-}

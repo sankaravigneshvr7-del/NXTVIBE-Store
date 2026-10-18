@@ -20,6 +20,25 @@ import RcCars from "./pages/RcCars";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProductForm from "./pages/admin/ProductForm";
+import RouteSeo from "./components/RouteSeo";
+
+const SEEN_KEY = "nxtvibe_intro_seen";
+
+// remember (for this browser tab) that the intro already played
+function introAlreadySeen() {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function markIntroSeen() {
+  try {
+    sessionStorage.setItem(SEEN_KEY, "1");
+  } catch {
+    // ignore
+  }
+}
 
 // scroll to the top whenever the page changes
 function ScrollToTop() {
@@ -38,6 +57,7 @@ function Shell() {
   return (
     <>
       <ScrollToTop />
+      <RouteSeo />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -71,6 +91,7 @@ function Shell() {
             </ProtectedRoute>
           }
         />
+        
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -80,11 +101,15 @@ function Shell() {
 }
 
 export default function App() {
-  // the gold loader is skipped when you open an admin address directly
+  // the gold intro plays only when someone lands on the home page,
+  // and only once per visit. Other pages and admin pages open straight away.
   const [loading, setLoading] = useState(
-    () => !window.location.pathname.startsWith("/admin")
+    () => window.location.pathname === "/" && !introAlreadySeen()
   );
-  const handleDone = useCallback(() => setLoading(false), []);
+  const handleDone = useCallback(() => {
+    markIntroSeen();
+    setLoading(false);
+  }, []);
 
   return (
     <BrowserRouter>

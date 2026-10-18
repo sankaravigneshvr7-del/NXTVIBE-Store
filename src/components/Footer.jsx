@@ -300,7 +300,7 @@ export default function Footer() {
         </p>
 
         {/* bottom row */}
-                <div className={`mt-8 flex flex-col items-center justify-between gap-4 text-xs sm:flex-row ${t.copy}`}>
+        <div className={`mt-8 flex flex-col items-center justify-between gap-4 text-xs sm:flex-row ${t.copy}`}>
           <p
             onClick={secretTap}
             className="cursor-default touch-manipulation select-none"
@@ -318,6 +318,19 @@ export default function Footer() {
             Back to top <span aria-hidden="true">↑</span>
           </motion.button>
         </div>
+
+        {/* developer credit */}
+        <p className={`mt-6 text-center text-xs ${t.copy}`}>
+          Developed by{" "}
+          <a
+            href="https://dev-a-tech.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`font-semibold transition-colors hover:underline hover:underline-offset-4 ${t.boxStrong}`}
+          >
+            Dev-A Tech
+          </a>
+        </p>
       </div>
     </footer>
   );

@@ -554,6 +554,51 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===== ABOUT (real text that helps Google understand the site) ===== */}
+      <section className="bg-ivory px-4 py-16 sm:px-6 sm:py-24">
+        <motion.div
+          className="mx-auto max-w-3xl text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="font-display text-2xl font-bold uppercase tracking-wider text-ink sm:text-4xl">
+            About <span className="text-shimmer-dark">Nxt Vibe</span>
+          </h2>
+          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+            <span className="h-px w-16 bg-gold" />
+            <span className="text-gold">✦</span>
+            <span className="h-px w-16 bg-gold" />
+          </div>
+
+          <p className="mt-6 text-sm leading-relaxed text-ink/70 sm:text-base">
+            Nxt Vibe is an online store with four worlds under one brand. Under{" "}
+            <Link to="/cosmetics" className="font-semibold text-gold-dark underline-offset-4 hover:underline">
+              Nature Touch Handmades
+            </Link>{" "}
+            you will find handmade cosmetics inspired by nature.{" "}
+            <Link to="/fashions" className="font-semibold text-gold-dark underline-offset-4 hover:underline">
+              Nxt Vibe Fashions
+            </Link>{" "}
+            brings stylish T-shirts and dresses.{" "}
+            <Link to="/snacks" className="font-semibold text-gold-dark underline-offset-4 hover:underline">
+              Nxt Vibe Healthy Snacks
+            </Link>{" "}
+            offers tasty bites you can feel good about, and{" "}
+            <Link to="/rc-cars" className="font-semibold text-gold-dark underline-offset-4 hover:underline">
+              Nxt Vibe RC Cars
+            </Link>{" "}
+            has rock crawlers, trucks and excavators for every RC fan.
+          </p>
+
+          <p className="mt-4 text-sm leading-relaxed text-ink/70 sm:text-base">
+            Every product has a WhatsApp order button and an Amazon buy link, so
+            you can shop the way you like. Explore the store and find your next vibe.
+          </p>
+        </motion.div>
+      </section>
     </main>
   );
 }

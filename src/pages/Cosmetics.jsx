@@ -173,8 +173,8 @@ export default function Cosmetics() {
   const products = useMemo(() => {
     const term = q.trim().toLowerCase();
     if (!term) return all;
-    return all.filter((p) =>
-      `${p.name} ${p.description}`.toLowerCase().includes(term)
+        return all.filter((p) =>
+      `${p.name} ${p.description || ""}`.toLowerCase().includes(term)
     );
   }, [all, q]);
 
@@ -358,7 +358,7 @@ export default function Cosmetics() {
             </div>
           ) : (
             <p className="py-16 text-center text-ink/60">
-              No products found. Try another word.
+              {all.length === 0 ? "New products are coming soon ✨" : "No products found. Try another word."}
             </p>
           )}
         </div>

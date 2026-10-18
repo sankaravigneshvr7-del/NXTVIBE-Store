@@ -171,7 +171,7 @@ export default function RcCars() {
     const words = FILTERS[filter].words;
     const term = q.trim().toLowerCase();
     return all.filter((p) => {
-      const text = `${p.name} ${p.description}`.toLowerCase();
+      const text = `${p.name} ${p.description || ""}`.toLowerCase();
       if (words.length && !words.some((w) => text.includes(w))) return false;
       return !term || text.includes(term);
     });
@@ -354,7 +354,9 @@ export default function RcCars() {
               ))}
             </div>
           ) : (
-            <p className="py-16 text-center text-white/60">No machines found. Try another word.</p>
+            <p className="py-16 text-center text-white/60">
+              {all.length === 0 ? "New Cars are coming soon ✨" : "No products found. Try another word."}
+            </p>
           )}
         </div>
       </section>

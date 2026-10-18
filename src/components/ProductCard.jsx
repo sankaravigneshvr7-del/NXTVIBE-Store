@@ -43,15 +43,14 @@ const THEMES = {
 export default function ProductCard({ product, section = "cosmetics", index = 0 }) {
   const t = THEMES[section] || THEMES.cosmetics;
   const soldOut = product.inStock === false;
-  const hasPrice = product.price !== undefined && product.price !== "";
-  const discount = Number(product.discount) || 0;
-  const final = finalPrice(product.price, discount);
-  // the WhatsApp message carries the price the customer really pays
-  const forMessage = {
-    ...product,
-    section: product.section || section,
-    price: hasPrice ? final : product.price,
-  };
+
+  const hasPrice =
+    product.price !== undefined && product.price !== null && product.price !== "";
+  const price = Number(product.price) || 0;
+  const discount = Math.min(Math.max(Number(product.discount) || 0, 0), 100);
+  const final = finalPrice(price, discount);
+
+  const forMessage = { ...product, section: product.section || section };
 
   return (
     <motion.article
@@ -70,36 +69,39 @@ export default function ProductCard({ product, section = "cosmetics", index = 0 
             soldOut ? "grayscale" : ""
           }`}
         />
-        {discount > 0 && (
-          <span className="absolute right-2 top-2 rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white shadow">
-            -{discount}%
-          </span>
-        )}
+
         {soldOut && (
           <span className="absolute left-2 top-2 rounded-full bg-black/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
             Sold out
           </span>
         )}
+
+        {discount > 0 && !soldOut && (
+          <span className="absolute right-2 top-2 rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white shadow-lg">
+            -{discount}%
+          </span>
+        )}
+
         {/* shine that slides over the picture on hover */}
         <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/30 to-transparent opacity-0 transition-all duration-1000 group-hover:left-full group-hover:opacity-100" />
       </div>
 
       {/* text + buttons */}
       <div className="flex flex-1 flex-col p-3 sm:p-4">
-        <h3 className={`line-clamp-2 text-sm sm:text-base ${t.name}`}>
-          {product.name}
-        </h3>
+        <h3 className={`line-clamp-2 text-sm sm:text-base ${t.name}`}>{product.name}</h3>
+
         {product.description && (
           <p className={`mt-1 line-clamp-2 text-xs sm:text-sm ${t.desc}`}>
             {product.description}
           </p>
         )}
+
         {hasPrice && (
-          <p className={`mt-2 text-base sm:text-lg ${t.price}`}>
-            {formatMoney(final)}
+          <p className={`mt-2 flex flex-wrap items-baseline gap-x-2 text-base sm:text-lg ${t.price}`}>
+            <span>{formatMoney(final)}</span>
             {discount > 0 && (
-              <span className="ml-2 text-xs font-normal line-through opacity-50 sm:text-sm">
-                {formatMoney(product.price)}
+              <span className="text-xs font-normal line-through opacity-60 sm:text-sm">
+                {formatMoney(price)}
               </span>
             )}
           </p>
@@ -120,6 +122,7 @@ export default function ProductCard({ product, section = "cosmetics", index = 0 
               <span aria-hidden="true">💬</span> WhatsApp
             </a>
           )}
+
           {product.amazonLink && (
             <a
               href={product.amazonLink}
