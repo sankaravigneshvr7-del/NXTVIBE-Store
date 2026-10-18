@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #c9a961;
+  --color-gold-light: #ecdcae;
+  --color-gold-dark: #9a7b34;
+  --color-ivory: #fffdf8;
+  --color-ink: #14110c;
+  --font-display: "Cinzel", serif;
+  --font-body: "Poppins", sans-serif;
+
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* shiny moving gold text (for dark backgrounds) */
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    #9a7b34 20%,
+    #ecdcae 40%,
+    #fff6d8 50%,
+    #ecdcae 60%,
+    #9a7b34 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* shiny moving gold text (for light backgrounds) */
+.text-shimmer-dark {
+  background: linear-gradient(
+    110deg,
+    #7a5f22 20%,
+    #c9a961 40%,
+    #e3c57a 50%,
+    #c9a961 60%,
+    #7a5f22 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float,
+  .text-shimmer,
+  .text-shimmer-dark {
+    animation: none;
+  }
+}
